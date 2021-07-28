@@ -1,19 +1,27 @@
 <idea-plugin>
-    <id>com.github.kyh8496.testplugintemplate</id>
-    <name>TestPluginTemplate</name>
-    <vendor>kyh8496</vendor>
+    <id>com.github.test.template</id>
+    <name>Test Template</name>
+    <vendor>Dealicious</vendor>
 
     <!-- Product and plugin compatibility requirements -->
     <!-- https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>org.jetbrains.android</depends>
+    <depends>org.jetbrains.kotlin</depends>
+    <depends>com.intellij.modules.java</depends>
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.androidstudio</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="com.github.kyh8496.testplugintemplate.services.MyApplicationService"/>
-        <projectService serviceImplementation="com.github.kyh8496.testplugintemplate.services.MyProjectService"/>
+        <applicationService serviceImplementation="com.github.test.template.services.MyApplicationService"/>
+        <projectService serviceImplementation="com.github.test.template.services.MyProjectService"/>
+    </extensions>
+
+    <extensions defaultExtensionNs="com.android.tools.idea.wizard.template">
+        <wizardTemplateProvider implementation="com.github.test.template.WizardTemplateProviderImpl" />
     </extensions>
 
     <applicationListeners>
-        <listener class="com.github.kyh8496.testplugintemplate.listeners.MyProjectManagerListener"
+        <listener class="com.github.test.template.listeners.MyProjectManagerListener"
                   topic="com.intellij.openapi.project.ProjectManagerListener"/>
     </applicationListeners>
 </idea-plugin>

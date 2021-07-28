@@ -21,6 +21,9 @@ plugins {
 
 group = properties("pluginGroup")
 version = properties("pluginVersion")
+if (!hasProperty("StudioCompilePath")) {
+    throw GradleException("No StudioCompilePath value was set, please create gradle.properties file")
+}
 
 // Configure project's dependencies
 repositories {
@@ -39,6 +42,8 @@ intellij {
     downloadSources.set(properties("platformDownloadSources").toBoolean())
     updateSinceUntilBuild.set(true)
 
+
+    intellij.localPath.set(properties("StudioRunPath"))
     // Plugin Dependencies. Uses `platformPlugins` property from the gradle.properties file.
     plugins.set(properties("platformPlugins").split(',').map(String::trim).filter(String::isNotEmpty))
 }

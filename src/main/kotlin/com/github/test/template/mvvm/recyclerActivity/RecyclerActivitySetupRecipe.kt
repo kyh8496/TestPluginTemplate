@@ -1,0 +1,62 @@
+package com.github.test.template.mvvm
+
+import com.android.tools.idea.wizard.template.*
+import com.android.tools.idea.wizard.template.impl.activities.common.*
+import com.github.test.template.extensions.*
+import com.github.test.template.listeners.MyProjectManagerListener.Companion.projectInstance
+import com.github.test.template.mvvm.template.classes.*
+import com.github.test.template.mvvm.template.layout.*
+import com.intellij.openapi.roots.*
+import com.intellij.psi.*
+
+fun RecipeExecutor.mvvmRecyclerActivitySetup(
+    moduleData: ModuleTemplateData,
+    packageName: String,
+    className: String,
+    activityLayoutName: String,
+) {
+    val (projectData) = moduleData
+    val project = projectInstance ?: return
+
+    addAllKotlinDependencies(moduleData)
+
+    val virtualFiles = ProjectRootManager.getInstance(project).contentSourceRoots
+    val virtSrc = virtualFiles.first { it.path.contains("app/src/main/java") }
+    val virtRes = virtualFiles.first { it.path.contains("app/src/main/res") }
+    val directorySrc = PsiManager.getInstance(project).findDirectory(virtSrc)!!
+    val directoryRes = PsiManager.getInstance(project).findDirectory(virtRes)!!
+
+    val activityClass = "${className}Activity".capitalize()
+    val adapterClass = "${className}RecyclerAdatper".capitalize()
+    val viewHolderClass = "${className}ItemViewHolder".capitalize()
+    val viewModelClass = "${className}ViewModel".capitalize()
+    val activityTitle = "$className Activity".capitalize()
+
+    generateManifest(
+        moduleData,
+        activityClass,
+        activityTitle,
+        packageName,
+        isLauncher = false,
+        hasNoActionBar = true,
+        generateActivityTitle = true
+    )
+
+    createRecyclerActivity(packageName, className, activityLayoutName, projectData)
+        .save(directorySrc, packageName, "$activityClass.kt")
+
+    createRecyclerAdapter(packageName, className)
+        .save(directorySrc, "$packageName.adapter", "$adapterClass.kt")
+
+    createViewHolder(packageName, className)
+        .save(directorySrc, "$packageName.viewHolder", "$viewHolderClass.kt")
+
+    createViewModel(packageName, className)
+        .save(directorySrc, "$packageName.viewModel", "$viewModelClass.kt")
+
+    createRecyclerActivityLayout(packageName, className)
+        .save(directoryRes, "layout", "${activityLayoutName}.xml")
+
+    createViewHolderLayout()
+        .save(directoryRes, "layout", "item_${className.toSnakeCase()}.xml")
+}
