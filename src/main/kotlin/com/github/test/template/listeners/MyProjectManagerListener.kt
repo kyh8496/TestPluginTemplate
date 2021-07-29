@@ -1,19 +1,22 @@
 package com.github.test.template.listeners
 
-import com.intellij.openapi.components.service
-import com.intellij.openapi.project.Project
-import com.intellij.openapi.project.ProjectManagerListener
-import com.github.test.template.services.MyProjectService
+import com.github.test.template.services.*
+import com.intellij.openapi.components.*
+import com.intellij.openapi.project.*
 
 internal class MyProjectManagerListener : ProjectManagerListener {
 
     override fun projectOpened(project: Project) {
-        projectInstance = project
+        if (project.name.equals("Test", ignoreCase = true)) {
+            projectInstance = project
+        }
         project.service<MyProjectService>()
     }
 
     override fun projectClosing(project: Project) {
-        projectInstance = null
+        if (project.name.equals("Test", ignoreCase = true)) {
+            projectInstance = null
+        }
         super.projectClosing(project)
     }
 
