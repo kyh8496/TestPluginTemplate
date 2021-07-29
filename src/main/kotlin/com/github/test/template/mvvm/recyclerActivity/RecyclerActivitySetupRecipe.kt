@@ -21,10 +21,10 @@ fun RecipeExecutor.mvvmRecyclerActivitySetup(
     addAllKotlinDependencies(moduleData)
 
     val virtualFiles = ProjectRootManager.getInstance(project).contentSourceRoots
-    val virtSrc = virtualFiles.first { it.path.contains("app/src/main/java") }
-    val virtRes = virtualFiles.first { it.path.contains("app/src/main/res") }
-    val directorySrc = PsiManager.getInstance(project).findDirectory(virtSrc)!!
-    val directoryRes = PsiManager.getInstance(project).findDirectory(virtRes)!!
+    val virtSrc = virtualFiles.firstOrNull { it.path.contains("app/src/main/java") }?:return
+    val virtRes = virtualFiles.firstOrNull { it.path.contains("app/src/main/res") }?:return
+    val directorySrc = PsiManager.getInstance(project).findDirectory(virtSrc)?:return
+    val directoryRes = PsiManager.getInstance(project).findDirectory(virtRes)?:return
 
     val activityClass = "${className}Activity".capitalize()
     val adapterClass = "${className}RecyclerAdatper".capitalize()
