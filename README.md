@@ -1,3 +1,4 @@
+<!-- Plugin description -->
 # TestPluginTemplate
 
 TestPluginTemplate 사용 테스트를 위해서는 Test 이름의 Project 로 해야 합니다.
@@ -9,6 +10,8 @@ TestPluginTemplate 사용 테스트를 위해서는 Test 이름의 Project 로 �
 ### 템플릿 사용
 
 <img src="/screenshot/second.gif" width="660">
+
+<!-- Plugin description end -->
 
 ---
 Plugin based on the [IntelliJ Platform Plugin Template][template].
