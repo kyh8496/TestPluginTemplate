@@ -5,11 +5,9 @@ import com.github.test.template.extensions.*
 
 val recyclerActivitySetupTemplate
     get() = template {
-        revision = 2
         name = "Test RecyclerView Activity"
         description = "리사이클러뷰 액티비티"
         minApi = 16
-        minBuildApi = 16
         category = Category.Other // Check other categories
         formFactor = FormFactor.Mobile
         screens = listOf(

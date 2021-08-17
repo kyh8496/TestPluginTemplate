@@ -15,7 +15,7 @@ fun RecipeExecutor.mvvmRecyclerActivitySetup(
     className: String,
     activityLayoutName: String,
 ) {
-    val (projectData) = moduleData
+    val (projectData, _, _, manifestOut) = moduleData
     val project = projectInstance ?: return
 
     addAllKotlinDependencies(moduleData)
@@ -30,16 +30,10 @@ fun RecipeExecutor.mvvmRecyclerActivitySetup(
     val adapterClass = "${className}RecyclerAdatper".capitalize()
     val viewHolderClass = "${className}ItemViewHolder".capitalize()
     val viewModelClass = "${className}ViewModel".capitalize()
-    val activityTitle = "$className Activity".capitalize()
 
-    generateManifest(
-        moduleData,
-        activityClass,
-        activityTitle,
-        packageName,
-        isLauncher = false,
-        hasNoActionBar = true,
-        generateActivityTitle = true
+    mergeXml(
+        manifestTemplateXml(packageName, "${className}Activity"),
+        manifestOut.resolve("AndroidManifest.xml")
     )
 
     createRecyclerActivity(packageName, className, activityLayoutName, projectData)

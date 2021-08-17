@@ -69,6 +69,9 @@ detekt {
 }
 
 tasks {
+    instrumentCode {
+        compilerVersion.set("203.7717.56")
+    }
     // Set the compatibility versions to 1.8
     withType<JavaCompile> {
         sourceCompatibility = "1.8"
